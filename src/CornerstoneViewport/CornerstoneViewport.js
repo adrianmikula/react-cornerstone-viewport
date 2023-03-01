@@ -190,6 +190,7 @@ class CornerstoneViewport extends Component {
       });
 
       // Load first image in stack
+      console.log("componentDidMount - Load first image in stack")
       const options = {
         addToBeginning,
         priority,
@@ -202,6 +203,8 @@ class CornerstoneViewport extends Component {
       };
 
       // 1. Load the image using the ImageLoadingPool
+      console.log("componentDidMount - Load the image using the ImageLoadingPool")
+
       cornerstone.imageLoadPoolManager.addRequest(
         requestFn.bind(this, imageId, options),
         requestType,
@@ -226,6 +229,7 @@ class CornerstoneViewport extends Component {
       this.setState({ isLoading: false });
     } catch (error) {
       this.setState({ error, isLoading: false });
+      console.warn("componentDidMount - error " + error)
     }
   }
 
@@ -261,6 +265,7 @@ class CornerstoneViewport extends Component {
 
       try {
         // load + display image
+        console.log("componentDidUpdate - load + display image")
         const imageId = stack[imageIndex || 0];
         cornerstoneTools.stopClip(this.element);
         const requestFn = (imageId, options) => {
@@ -272,6 +277,7 @@ class CornerstoneViewport extends Component {
             });
         };
 
+        console.log("componentDidUpdate - imageLoadPoolManager request ")
         cornerstone.imageLoadPoolManager.addRequest(
           requestFn.bind(this, imageId, { addToBeginning, priority }),
           requestType,
@@ -284,6 +290,7 @@ class CornerstoneViewport extends Component {
       } catch (err) {
         // :wave:
         // What if user kills component before `displayImage`?
+        console.warn("componentDidUpdate - error " + err)
       }
     } else if (!hasStackChanged && hasImageIndexChanged) {
       scrollToIndex(this.element, imageIndex);
