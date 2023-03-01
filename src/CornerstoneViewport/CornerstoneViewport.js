@@ -197,6 +197,10 @@ class CornerstoneViewport extends Component {
       };
 
       const requestFn = (imageId, options) => {
+        console.log(
+          'componentDidMount - requestFn - start of function callback'
+        );
+
         return cornerstone
           .loadAndCacheImage(imageId, options)
           .then((image) => {
@@ -242,6 +246,9 @@ class CornerstoneViewport extends Component {
       _addAndConfigureInitialToolsForElement(tools, this.element);
       _trySetActiveTool(this.element, this.props.activeTool);
       this.setState({ isLoading: false });
+      console.log(
+        'componentDidMount - reached the end of the function successfully'
+      );
     } catch (error) {
       this.setState({ error, isLoading: false });
       console.warn('componentDidMount - error ' + error);
