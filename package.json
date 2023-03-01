@@ -1,10 +1,10 @@
 {
-  "name": "react-cornerstone-viewport",
+  "name": "react-cornerstone-viewport-adrian",
   "version": "0.2.2",
-  "description": "Cornerstone medical image viewport component for React",
+  "description": "Cornerstone medical image viewport component for React (with extra debug)",
   "author": "Cornerstone Contributors",
   "license": "MIT",
-  "repository": "cornerstonejs/react-cornerstone-viewport",
+  "repository": "adrianmikula/react-cornerstone-viewport",
   "main": "dist/index.js",
   "browser": "dist/index.umd.js",
   "module": "dist/index.es.js",
