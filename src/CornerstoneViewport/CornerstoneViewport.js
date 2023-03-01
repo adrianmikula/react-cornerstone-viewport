@@ -162,6 +162,9 @@ class CornerstoneViewport extends Component {
     const { imageIdIndex } = this.state;
     const imageId = imageIds[imageIdIndex];
 
+    console.log('componentDidMount - imageIds ' + JSON.stringify(imageIds));
+    console.log('componentDidMount - imageIdIndex ' + imageIdIndex);
+
     // ~~ EVENTS: CORNERSTONE
     this._handleOnElementEnabledEvent();
     this._bindInternalCornerstoneEventListeners();
@@ -221,7 +224,9 @@ class CornerstoneViewport extends Component {
 
       // 1. Load the image using the ImageLoadingPool
       console.log(
-        'componentDidMount - Load the image using the ImageLoadingPool'
+        'componentDidMount - Load the image ' +
+          imageId +
+          ' using the ImageLoadingPool'
       );
 
       cornerstone.imageLoadPoolManager.addRequest(
@@ -232,6 +237,11 @@ class CornerstoneViewport extends Component {
         },
         priority,
         addToBeginning
+      );
+
+      const csiRequests = ctVolume.getImageLoadRequests();
+      console.log(
+        'componentDidMount - requests ' + JSON.stringify(csiRequests)
       );
 
       if (isStackPrefetchEnabled) {
