@@ -21,7 +21,12 @@ You will need to log onto registry.npmjs.org and log in with your npm user accou
 ```bash
 npm publish
 ```
+3. Switch to your other project in VSCode (itxviewer2)
+4. Open a command line.
+5. type 'cd atx-frontend'
+6. type 'npm install react-cornerstone-viewport-adrian' to get the new NPM package you just published.
 
+You can check you have the latest version by looking for the correct version number for react-cornerstone-viewport-adrian in package.json
 
 ## Using in another project
 
