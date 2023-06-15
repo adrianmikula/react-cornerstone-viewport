@@ -6,22 +6,29 @@
 
 Documentation and Examples: [https://react.cornerstonejs.org/](https://react.cornerstonejs.org/)
 
-## Install
+## Setup New Developer Environment (once only)
+Open a terminal window and run this command:
+```bash
+npm install
+npm adduser
+```
+You will need to log onto registry.npmjs.org and log in with your npm user account
+
+## Publish updated package
+1. Increment the version number in package.json
+2. Then publish the new package uisng this command in a terminal window:
 
 ```bash
-## NPM
-npm install --save react-cornerstone-viewport
-
-## Yarn
-yarn add react-cornerstone-viewport
+npm publish
 ```
 
-## Usage
+
+## Using in another project
 
 ```jsx
 import React, { Component } from 'react'
 
-import CornerstoneViewport from 'react-cornerstone-viewport'
+import CornerstoneViewport from 'react-cornerstone-viewport-adrian'
 
 class Example extends Component {
   render () {

@@ -1,6 +1,6 @@
 {
   "name": "react-cornerstone-viewport-adrian",
-  "version": "0.2.5",
+  "version": "0.2.9",
   "description": "Cornerstone medical image viewport component for React (with extra debug)",
   "author": "Cornerstone Contributors",
   "license": "MIT",
