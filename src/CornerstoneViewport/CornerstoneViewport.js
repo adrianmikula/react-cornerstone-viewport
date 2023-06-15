@@ -195,7 +195,7 @@ class CornerstoneViewport extends Component {
       // Load first image in stack
       console.log('componentDidMount - Load first image in stack');
       const options = {
-        callLoadImage,
+        //callLoadImage,
         addToBeginning,
         priority,
       };
@@ -226,8 +226,8 @@ class CornerstoneViewport extends Component {
       // 1. Load the image using the ImageLoadingPool
       console.log(
         'componentDidMount - Load the image ' +
-          imageId +
-          ' using the ImageLoadingPool'
+        imageId +
+        ' using the ImageLoadingPool'
       );
 
       cornerstone.imageLoadPoolManager.addRequest(
@@ -243,7 +243,7 @@ class CornerstoneViewport extends Component {
       // const csiRequests = cornerstone.imageLoadPoolManager.getRequests();
       console.log(
         'componentDidMount - image loader ' +
-          JSON.stringify(cornerstone.imageLoadPoolManager)
+        JSON.stringify(cornerstone.imageLoadPoolManager)
       );
 
       if (isStackPrefetchEnabled) {
