@@ -71,6 +71,7 @@ class CornerstoneViewport extends Component {
     ),
     startLoadHandler: PropTypes.func,
     endLoadHandler: PropTypes.func,
+    //onLoadToolState: PropTypes.func, //RABBIT
     loadIndicatorDelay: PropTypes.number,
     loadingIndicatorComponent: PropTypes.oneOfType([
       PropTypes.element,
@@ -143,9 +144,14 @@ class CornerstoneViewport extends Component {
     // Save a copy. Props could change before `willUnmount`
     this.startLoadHandler = this.props.startLoadHandler;
     this.endLoadHandler = this.props.endLoadHandler;
+    //this.onLoadToolState = this.props.onLoadToolState; //RABBIT
     this.loadHandlerTimeout = undefined; // "Loading..." timer
 
     this.numImagesLoaded = 0;
+
+    console.log('CornerstoneViewport.js - props - key (unused): ', this.props.key); //RABBIT
+    console.log('CornerstoneViewport.js - props - ref (unused): ', this.props.ref); //RABBIT
+    console.log('CornerstoneViewport.js - props - imageIds: ', this.props.imageIds); //RABBIT
   }
 
   // ~~ LIFECYCLE
@@ -187,10 +193,14 @@ class CornerstoneViewport extends Component {
         'playClip',
         'referenceLines',
       ]);
+      console.log('CornerstoneViewport.js - componentDidMount - Adding Tool State');//RABBIT
+      console.log('CornerstoneViewport.js - componentDidMount - Adding Tool State - imageIds: ', [...imageIds]);//RABBIT
+      console.log('CornerstoneViewport.js - componentDidMount - Adding Tool State - currentImageIdIndex (this.state): ', imageIdIndex);//RABBIT
       cornerstoneTools.addToolState(this.element, 'stack', {
         imageIds: [...imageIds],
         currentImageIdIndex: imageIdIndex,
       });
+      //this.onLoadToolState(); //RABBIT
 
       // Load first image in stack
       console.log('componentDidMount - Load first image in stack');
@@ -213,8 +223,15 @@ class CornerstoneViewport extends Component {
             );
             cornerstone.displayImage(this.element, image, initialViewport);
             console.log(
-              'componentDidMount - requestFn - loadAndCacheImage.then after cornerstone.displayImage'
+              'componentDidMount - requestFn - loadAndCacheImage.then after cornerstone.displayImage' // ADRIAN
             );
+
+            // call custom event handler - ADRIAN
+            if (this.endLoadHandler) {
+              console.log('CornerstoneViewport.js - _setupLoadHandlers() - about to call user defined endLoadHandler'); //ADRIAN
+
+              this.endLoadHandler(this.element, image);
+            }
           })
           .catch((error) => {
             console.warn(
@@ -288,7 +305,7 @@ class CornerstoneViewport extends Component {
     if (hasStackChanged) {
       // update stack toolstate
       cornerstoneTools.clearToolState(this.element, 'stack');
-      cornerstoneTools.addToolState(this.element, 'stack', {
+      cornerstoneTools.addToolState(this.element, 'stack', {  // ADRIAN
         imageIds: [...stack],
         currentImageIdIndex: imageIndex || 0,
       });
@@ -371,6 +388,11 @@ class CornerstoneViewport extends Component {
     // ~~ OVERLAY
     if (isOverlayVisible !== prevIsOverlayVisible)
       updatedState.isOverlayVisible = isOverlayVisible;
+
+    // update event handlers RABBIT
+    this.startLoadHandler = this.props.startLoadHandler
+    this.endLoadHandler = this.props.endLoadHandler
+    console.log("props were updated")
 
     // ~~ STATE: Update aggregated state changes
     if (Object.keys(updatedState).length > 0) {
@@ -614,7 +636,7 @@ class CornerstoneViewport extends Component {
         target: targetType,
         eventName,
         handler,
-      } = this.props.eventListeners[i];
+      } = this.props.eventListeners[i]; // ADRIAN
       if (
         !cornerstoneEvents.includes(eventName) &&
         !cornerstoneToolsEvents.includes(eventName)
@@ -696,6 +718,7 @@ class CornerstoneViewport extends Component {
    * @returns {undefined}
    */
   _setupLoadHandlers(clear = false) {
+    console.log('CornerstoneViewport.js - _setupLoadHandlers()'); //RABBIT
     if (clear) {
       loadHandlerManager.removeHandlers(this.element);
       return;
@@ -704,12 +727,18 @@ class CornerstoneViewport extends Component {
     // We use this to "flip" `isLoading` to true, if our startLoading request
     // takes longer than our "loadIndicatorDelay"
     const startLoadHandler = (element) => {
+      console.log('CornerstoneViewport.js - startLoadHandler()'); //RABBIT
       clearTimeout(this.loadHandlerTimeout);
+
+      console.log('CornerstoneViewport.js - startLoadHandler() - after ClearTimeout'); //RABBIT
+      console.log('CornerstoneVieport.js - startLoadHandler() - element: ', element); //RABBIT
 
       // Call user defined loadHandler
       if (this.startLoadHandler) {
         this.startLoadHandler(element);
       }
+
+      console.log('CornerstoneViewport.js - startLoadHandler() - function executed'); //RABBIT
 
       // We're taking too long. Indicate that we're "Loading".
       this.loadHandlerTimeout = setTimeout(() => {
@@ -724,6 +753,8 @@ class CornerstoneViewport extends Component {
 
       // Call user defined loadHandler
       if (this.endLoadHandler) {
+        console.log('CornerstoneViewport.js - _setupLoadHandlers() - about to call user defined endLoadHandler'); //RABBIT
+
         this.endLoadHandler(element, image);
       }
 
@@ -733,6 +764,9 @@ class CornerstoneViewport extends Component {
         });
       }
     };
+
+    console.log('CornerstoneViewport.js - _setupLoadHandlers() - setting start and end load handlers with load handler manager'); //RABBIT
+    console.log('CornerstoneViewport.js - _setupLoadHandlers() - this.element: ', this.element); //RABBIT
 
     loadHandlerManager.setStartLoadHandler(startLoadHandler, this.element);
     loadHandlerManager.setEndLoadHandler(endLoadHandler, this.element);
