@@ -71,7 +71,7 @@ class CornerstoneViewport extends Component {
     ),
     startLoadHandler: PropTypes.func,
     endLoadHandler: PropTypes.func,
-    onLoadToolState: PropTypes.func, //RABBIT
+    //onLoadToolState: PropTypes.func, //RABBIT
     loadIndicatorDelay: PropTypes.number,
     loadingIndicatorComponent: PropTypes.oneOfType([
       PropTypes.element,
@@ -144,7 +144,7 @@ class CornerstoneViewport extends Component {
     // Save a copy. Props could change before `willUnmount`
     this.startLoadHandler = this.props.startLoadHandler;
     this.endLoadHandler = this.props.endLoadHandler;
-    this.onLoadToolState = this.props.onLoadToolState; //RABBIT
+    //this.onLoadToolState = this.props.onLoadToolState; //RABBIT
     this.loadHandlerTimeout = undefined; // "Loading..." timer
 
     this.numImagesLoaded = 0;
@@ -200,7 +200,7 @@ class CornerstoneViewport extends Component {
         imageIds: [...imageIds],
         currentImageIdIndex: imageIdIndex,
       });
-      this.onLoadToolState(); //RABBIT
+      //this.onLoadToolState(); //RABBIT
 
       // Load first image in stack
       console.log('componentDidMount - Load first image in stack');
@@ -390,9 +390,9 @@ class CornerstoneViewport extends Component {
       updatedState.isOverlayVisible = isOverlayVisible;
 
     // update event handlers RABBIT
-    // this.startLoadHandler = this.props.startLoadHandler
-    // this.endLoadHandler = this.props.endLoadHandler
-    // console.log("props were updated")
+    this.startLoadHandler = this.props.startLoadHandler
+    this.endLoadHandler = this.props.endLoadHandler
+    console.log("props were updated")
 
     // ~~ STATE: Update aggregated state changes
     if (Object.keys(updatedState).length > 0) {
