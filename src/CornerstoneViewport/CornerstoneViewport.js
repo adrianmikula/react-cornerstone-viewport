@@ -227,11 +227,11 @@ class CornerstoneViewport extends Component {
             );
 
             // call custom event handler - ADRIAN
-            if (this.endLoadHandler) {
-              console.log('CornerstoneViewport.js - _setupLoadHandlers() - about to call user defined endLoadHandler'); //ADRIAN
+            // if (this.endLoadHandler) {
+            //   console.log('CornerstoneViewport.js - _setupLoadHandlers() - about to call user defined endLoadHandler'); //ADRIAN
 
-              this.endLoadHandler(this.element, image);
-            }
+            //   this.endLoadHandler(this.element, image);
+            // }
           })
           .catch((error) => {
             console.warn('componentDidMount - requestFn - loadAndCacheImage.catch ' + JSON.stringify(error))
@@ -390,9 +390,9 @@ class CornerstoneViewport extends Component {
       updatedState.isOverlayVisible = isOverlayVisible;
 
     // update event handlers RABBIT
-    if (this.props.startLoadHandler) this.startLoadHandler = this.props.startLoadHandler
-    if (this.props.endLoadHandler) this.endLoadHandler = this.props.endLoadHandler
-    //console.log("props were updated")
+    // this.startLoadHandler = this.props.startLoadHandler
+    // this.endLoadHandler = this.props.endLoadHandler
+    // console.log("props were updated")
 
     // ~~ STATE: Update aggregated state changes
     if (Object.keys(updatedState).length > 0) {
