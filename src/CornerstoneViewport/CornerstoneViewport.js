@@ -71,7 +71,7 @@ class CornerstoneViewport extends Component {
     ),
     startLoadHandler: PropTypes.func,
     endLoadHandler: PropTypes.func,
-    //onLoadToolState: PropTypes.func, //RABBIT
+    onLoadToolState: PropTypes.func, //RABBIT
     loadIndicatorDelay: PropTypes.number,
     loadingIndicatorComponent: PropTypes.oneOfType([
       PropTypes.element,
@@ -144,7 +144,7 @@ class CornerstoneViewport extends Component {
     // Save a copy. Props could change before `willUnmount`
     this.startLoadHandler = this.props.startLoadHandler;
     this.endLoadHandler = this.props.endLoadHandler;
-    //this.onLoadToolState = this.props.onLoadToolState; //RABBIT
+    this.onLoadToolState = this.props.onLoadToolState; //RABBIT
     this.loadHandlerTimeout = undefined; // "Loading..." timer
 
     this.numImagesLoaded = 0;
@@ -200,7 +200,7 @@ class CornerstoneViewport extends Component {
         imageIds: [...imageIds],
         currentImageIdIndex: imageIdIndex,
       });
-      //this.onLoadToolState(); //RABBIT
+      this.onLoadToolState(); //RABBIT
 
       // Load first image in stack
       console.log('componentDidMount - Load first image in stack');
@@ -227,11 +227,11 @@ class CornerstoneViewport extends Component {
             );
 
             // call custom event handler - ADRIAN
-            // if (this.endLoadHandler) {
-            //   console.log('CornerstoneViewport.js - _setupLoadHandlers() - about to call user defined endLoadHandler'); //ADRIAN
+            if (this.endLoadHandler) {
+              console.log('CornerstoneViewport.js - _setupLoadHandlers() - about to call user defined endLoadHandler'); //ADRIAN
 
-            //   this.endLoadHandler(this.element, image);
-            // }
+              this.endLoadHandler(this.element, image);
+            }
           })
           .catch((error) => {
             console.warn('componentDidMount - requestFn - loadAndCacheImage.catch ' + JSON.stringify(error))
