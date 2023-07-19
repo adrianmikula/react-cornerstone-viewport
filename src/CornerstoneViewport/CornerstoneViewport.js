@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import ImageScrollbar from '../ImageScrollbar/ImageScrollbar.js';
@@ -136,6 +136,8 @@ class CornerstoneViewport extends Component {
       rotationDegrees: undefined,
       isFlippedVertically: undefined,
       isFlippedHorizontally: undefined,
+      errorMessage: "",
+      showErrorMessage: false
     };
 
     this._validateExternalEventsListeners();
@@ -148,6 +150,7 @@ class CornerstoneViewport extends Component {
     this.loadHandlerTimeout = undefined; // "Loading..." timer
 
     this.numImagesLoaded = 0;
+
 
     console.log('CornerstoneViewport.js - props - key (unused): ', this.props.key); //RABBIT
     console.log('CornerstoneViewport.js - props - ref (unused): ', this.props.ref); //RABBIT
@@ -237,6 +240,10 @@ class CornerstoneViewport extends Component {
             console.warn('componentDidMount - requestFn - loadAndCacheImage.catch ' + JSON.stringify(error))
             console.warn('error was for imageId: ' + JSON.stringify(imageId));
             console.error(error)
+
+            // if the image wasn't found, then display an error message in the html
+            // using a state variable to toggle the html element
+            this.setState({ showErrorMessage: true, errorMessage: "error loading image" })
           });
       };
 
@@ -848,6 +855,9 @@ class CornerstoneViewport extends Component {
         style={this.props.style}
         className={classNames('viewport-wrapper', this.props.className)}
       >
+        {this.state.showErrorMessage &&
+          <div>{this.state.errorMessage}</div>
+        }
         {this.props.enableResizeDetector && this.element != null && (
           <ReactResizeDetector
             handleWidth
@@ -859,6 +869,10 @@ class CornerstoneViewport extends Component {
             targetDomEl={this.element}
           />
         )}
+        {/* {this.state.showErrorMessage &&
+         <div>{this.state.errorMessage}</div>
+        }
+        {!this.state.showErrorMessage && */}
         <div
           className="viewport-element"
           onContextMenu={(e) => e.preventDefault()}
@@ -875,6 +889,7 @@ class CornerstoneViewport extends Component {
           {this.getOverlay()}
           {this.getOrientationMarkersOverlay()}
         </div>
+        // }
         <ImageScrollbar
           onInputCallback={this.imageSliderOnInputCallback}
           max={scrollbarMax}
