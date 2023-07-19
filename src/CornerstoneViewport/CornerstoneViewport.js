@@ -88,6 +88,7 @@ class CornerstoneViewport extends Component {
     className: PropTypes.string,
     isOverlayVisible: PropTypes.bool,
     orientationMarkers: PropTypes.arrayOf(PropTypes.string),
+    state: PropTypes.object,
   };
 
   static defaultProps = {
@@ -110,6 +111,7 @@ class CornerstoneViewport extends Component {
     tools: [],
     onNewImageDebounceTime: 0,
     orientationMarkers: ['top', 'left'],
+    state: any
   };
 
   constructor(props) {
@@ -201,6 +203,34 @@ class CornerstoneViewport extends Component {
         currentImageIdIndex: imageIdIndex,
       });
       //this.onLoadToolState(); //RABBIT
+
+      // load the tool annotation state data
+      //Add the toolstate for each of the tools in the retrievd tool dataset
+      if (this.props.state)
+      {
+        console.log("loading tool state from props.state")
+        for (var toolType in this.props.state) {
+          if (this.props.state.hasOwnProperty(toolType)) {
+              for (var i = 0; i < this.props.state[toolType].data.length; i++) {
+                  var toolData = this.props.state[toolType].data[i];
+                  console.log("ADDING TOOL STATE element: ", this.element);
+                  console.log("ADDING TOOL STATE toolType: ", toolType);
+                  console.log("ADDING TOOL STATE toolData: ", toolData);
+                  // console.log("ADDING TOOL STATE image: ", image);
+                  try
+                  {
+                    cornerstoneTools.addToolState(this.element, toolType, toolData);
+                  }
+                  catch (error)
+                  {
+                    console.error(error)
+                  }
+              }
+          }
+        }
+    }
+
+
 
       // Load first image in stack
       console.log('componentDidMount - Load first image in stack');
